@@ -5,14 +5,11 @@ const validator = require("validator");
 const alunoController = {
     create: async (req, res) => {
         try {
-            const { email, cpf } = req.body;
+            const { email } = req.body;
 
             // Validation
             if (email && !validator.isEmail(email)) {
                 return res.status(400).json({ msg: "Por favor, forneça um email válido." });
-            }
-            if (cpf && !validator.isTaxID(cpf, 'pt-BR')) {
-                return res.status(400).json({ msg: "Por favor, forneça um CPF válido." });
             }
 
             const aluno = await Aluno.create(req.body);
@@ -79,14 +76,11 @@ const alunoController = {
 
     update: async (req, res) => {
         try {
-            const { email, cpf } = req.body;
+            const { email } = req.body;
 
             // Validation
             if (email && !validator.isEmail(email)) {
                 return res.status(400).json({ msg: "Por favor, forneça um email válido." });
-            }
-            if (cpf && !validator.isTaxID(cpf, 'pt-BR')) {
-                return res.status(400).json({ msg: "Por favor, forneça um CPF válido." });
             }
 
             const aluno = await Aluno.findByIdAndUpdate(req.params.id, req.body, { new: true });
