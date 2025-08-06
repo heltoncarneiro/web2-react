@@ -6,15 +6,14 @@ import styled from 'styled-components';
 
 // --- Styled Components ---
 const StyledForm = styled.form`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 `;
 
 const FormField = styled.div`
   display: flex;
   flex-direction: column;
-  grid-column: ${({ fullWidth }) => (fullWidth ? '1 / -1' : 'auto')};
 `;
 
 const Input = styled.input`
@@ -34,11 +33,10 @@ const ErrorMessage = styled.p`
 // Basic validation, can be improved (e.g., for CPF)
 const schema = yup.object().shape({
     nome: yup.string().required('Nome é obrigatório'),
-    endereco: yup.string().required('Endereço é obrigatório'),
-    dataNascimento: yup.date().typeError('Data inválida').required('Data de nascimento é obrigatória'),
-    cpf: yup.string().required('CPF é obrigatório').matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Formato de CPF inválido (use XXX.XXX.XXX-XX)'),
+    endereco: yup.string(),
+    dataNascimento: yup.date().typeError('Data inválida'),
     matricula: yup.string().required('Matrícula é obrigatória'),
-    telefone: yup.string().required('Telefone é obrigatório'),
+    telefone: yup.string(),
     email: yup.string().email('Email inválido').required('Email é obrigatório'),
     curso: yup.string().required('Curso é obrigatório'),
 });
@@ -71,35 +69,19 @@ const AlunoForm = ({ onSubmit, defaultValues }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
-            <FormField fullWidth>
+            <FormField>
                 <Input {...register('nome')} placeholder="Nome Completo" />
                 {errors.nome && <ErrorMessage>{errors.nome.message}</ErrorMessage>}
-            </FormField>
-            <FormField fullWidth>
-                <Input {...register('endereco')} placeholder="Endereço" />
-                {errors.endereco && <ErrorMessage>{errors.endereco.message}</ErrorMessage>}
-            </FormField>
-            <FormField>
-                <Input {...register('dataNascimento')} type="date" placeholder="Data de Nascimento" />
-                {errors.dataNascimento && <ErrorMessage>{errors.dataNascimento.message}</ErrorMessage>}
-            </FormField>
-            <FormField>
-                <Input {...register('cpf')} placeholder="CPF (XXX.XXX.XXX-XX)" />
-                {errors.cpf && <ErrorMessage>{errors.cpf.message}</ErrorMessage>}
             </FormField>
             <FormField>
                 <Input {...register('matricula')} placeholder="Matrícula" />
                 {errors.matricula && <ErrorMessage>{errors.matricula.message}</ErrorMessage>}
             </FormField>
             <FormField>
-                <Input {...register('telefone')} placeholder="Telefone" />
-                {errors.telefone && <ErrorMessage>{errors.telefone.message}</ErrorMessage>}
-            </FormField>
-            <FormField fullWidth>
                 <Input {...register('email')} placeholder="Email" />
                 {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
             </FormField>
-            <FormField fullWidth>
+            <FormField>
                 <Input {...register('curso')} placeholder="Curso" />
                 {errors.curso && <ErrorMessage>{errors.curso.message}</ErrorMessage>}
             </FormField>

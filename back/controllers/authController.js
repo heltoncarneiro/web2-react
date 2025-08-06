@@ -7,10 +7,12 @@ const JWT_SECRET = "your_secret_key"; // TODO: Move to .env file
 const authController = {
     register: async (req, res) => {
         try {
+            console.log("Registering user with email:", req.body.email);
             const { email, password } = req.body;
 
             const existingUser = await User.findOne({ email });
             if (existingUser) {
+                console.log("User already exists");
                 return res.status(400).json({ msg: "User already exists." });
             }
 
@@ -24,9 +26,10 @@ const authController = {
 
             await newUser.save();
 
+            console.log("User registered successfully");
             res.status(201).json({ msg: "User registered successfully." });
         } catch (error) {
-            console.error(error);
+            console.error("Error during registration:", error);
             res.status(500).json({ msg: "Server error." });
         }
     },
